@@ -31,19 +31,19 @@ Resources:
     Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
     Properties:
-      BucketName: "MyTEDucation-data"
+      BucketName: "myteducation-data"
 
   ScriptS3Bucket:
     Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
     Properties:
-      BucketName: "MyTEDucation-script"
+      BucketName: "myteducation-script"
 
   LogsS3Bucket:
     Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
     Properties:
-      BucketName: "MyTEDucation-logs"
+      BucketName: "myteducation-logs"
 
   HelloLambdaFunction:
     Type: AWS::Lambda::Function
