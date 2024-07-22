@@ -193,7 +193,11 @@ class _MyTalkState extends State<MyTalk> {
     List watchnext = widget.watchnext;
     String id = widget.id;
 
-    
+
+    String recommendedId;
+    String recommendedTitle ;
+    int recommendedViews;
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("MyTEDucation"),
@@ -207,10 +211,11 @@ class _MyTalkState extends State<MyTalk> {
                   Center(
                     child: 
                       Column(children: [
-                        FadeInImage.assetNetwork(
-                        placeholder: 'assets/images/loader.gif',
-                        image: imageurl,
-                      ),
+                        if(imageurl.isNotEmpty) 
+                            FadeInImage.assetNetwork(
+                            placeholder: 'assets/images/loader.gif',
+                            image: imageurl,
+                          ),
                       Text(
                         title,
                         style: const TextStyle(fontWeight: FontWeight.bold),
@@ -244,11 +249,28 @@ class _MyTalkState extends State<MyTalk> {
               ),
             ],
           ),
+          
           floatingActionButtonLocation:
                           FloatingActionButtonLocation.centerDocked,
                         floatingActionButton: FloatingActionButton(
                           child: const Icon(Icons.arrow_right_alt_outlined),
-                                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MyRecommendation(id)))
+                                    onPressed: () {
+                                      if(watchnext.isNotEmpty) {
+                                        recommendedId = watchnext[0]["watch_next_id"];
+                                        recommendedTitle = watchnext[0]["watch_next_title"];
+                                        recommendedViews = int.parse(watchnext[0]["watch_next_views"]);
+
+                                        for(int i=0; i < watchnext.length; i++) {
+                                          if(recommendedViews < int.parse(watchnext[i]["watch_next_views"])) {
+                                            recommendedId = watchnext[i]["watch_next_id"];
+                                            recommendedTitle = watchnext[i]["watch_next_title"];
+                                            recommendedViews = int.parse(watchnext[i]["watch_next_views"]);
+                                          }
+                                        }
+
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyTalk("", [], recommendedTitle, recommendedId)));
+                                      }
+                                    }
 
                         ),
       );
